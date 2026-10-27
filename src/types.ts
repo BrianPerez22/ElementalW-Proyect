@@ -6,6 +6,14 @@
 
 export type ResearchStatus = 'completada' | 'en-progreso';
 
+export interface ComparisonItem {
+  label: string;
+  a: number;
+  b: number;
+  /** Diferencia tal como la reporta la fuente (si se omite, se calcula b - a) */
+  delta?: number;
+}
+
 /** Bloques de contenido que se renderizan (en orden) dentro del detalle de una investigación. */
 export type ContentBlock =
   | { type: 'paragraph'; title?: string; text: string }
@@ -17,7 +25,7 @@ export type ContentBlock =
       caption?: string;
       /** Nombres de las dos series, p. ej. ['Pre-test', 'Post-test'] */
       seriesLabels: [string, string];
-      items: { label: string; a: number; b: number }[];
+      items: ComparisonItem[];
     }
   | { type: 'table'; title?: string; columns: string[]; rows: string[][] }
   | { type: 'list'; title?: string; items: string[]; tone?: 'default' | 'warning' }
@@ -59,3 +67,37 @@ export interface GlobalMetric {
   /** Origen del dato: ayuda a que se lea de dónde sale cada cifra */
   source: string;
 }
+
+interface ChartBase {
+  /** De qué investigación sale el dato */
+  source: string;
+  /** Ocupa las dos columnas en pantallas grandes */
+  wide?: boolean;
+}
+
+/** Gráficas de la sección "Métricas globales". */
+export type MetricChart =
+  | (ChartBase & Extract<ContentBlock, { type: 'comparison' }>)
+  | (ChartBase & {
+      type: 'bars';
+      title: string;
+      caption?: string;
+      /** value en porcentaje (0–100) */
+      items: { label: string; value: number }[];
+    })
+  | (ChartBase & {
+      type: 'donut';
+      title: string;
+      caption?: string;
+      /** Porcentaje (0–100) de la parte destacada */
+      value: number;
+      label: string;
+      restLabel: string;
+    })
+  | (ChartBase & {
+      type: 'sources';
+      title: string;
+      caption?: string;
+      inputs: string[];
+      output: string;
+    });

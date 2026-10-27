@@ -1,4 +1,46 @@
-import { globalMetrics } from '../data/metricas';
+import type { ReactNode } from 'react';
+import { globalCharts, globalMetrics } from '../data/metricas';
+import type { MetricChart } from '../types';
+import ComparisonChart from './ComparisonChart';
+import { BarList, DonutChart, SourcesFlow } from './MetricCharts';
+
+/** Marco común de las gráficas que no traen su propio título. */
+function Panel({ title, caption, children }: { title: string; caption?: string; children: ReactNode }) {
+  return (
+    <figure className="bg-rose-50/40 border border-rose-100 rounded-2xl p-4 sm:p-5 space-y-4">
+      <div>
+        <h4 className="font-bold text-rose-950 text-sm">{title}</h4>
+        {caption && <figcaption className="text-xs text-rose-800/70 mt-0.5">{caption}</figcaption>}
+      </div>
+      {children}
+    </figure>
+  );
+}
+
+function ChartBody({ chart }: { chart: MetricChart }) {
+  switch (chart.type) {
+    case 'comparison':
+      return <ComparisonChart {...chart} />;
+    case 'donut':
+      return (
+        <Panel title={chart.title} caption={chart.caption}>
+          <DonutChart value={chart.value} label={chart.label} restLabel={chart.restLabel} />
+        </Panel>
+      );
+    case 'bars':
+      return (
+        <Panel title={chart.title} caption={chart.caption}>
+          <BarList items={chart.items} />
+        </Panel>
+      );
+    case 'sources':
+      return (
+        <Panel title={chart.title} caption={chart.caption}>
+          <SourcesFlow inputs={chart.inputs} output={chart.output} />
+        </Panel>
+      );
+  }
+}
 
 export default function Metrics() {
   return (
@@ -21,6 +63,22 @@ export default function Metrics() {
             <span className="font-serif font-extrabold text-3xl sm:text-5xl text-rose-600 leading-tight">{m.value}</span>
             <span className="text-sm font-bold text-rose-950">{m.label}</span>
             {m.detail && <span className="text-xs text-rose-800/70">{m.detail}</span>}
+          </div>
+        ))}
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
+        {globalCharts.map((chart) => (
+          <div
+            key={`${chart.type}-${chart.title}`}
+            className={`bg-white p-5 sm:p-6 rounded-3xl border border-rose-200/70 shadow-sm space-y-3 ${
+              chart.wide ? 'lg:col-span-2' : ''
+            }`}
+          >
+            <span className="inline-block text-[10px] font-bold uppercase tracking-wider text-rose-500">
+              {chart.source}
+            </span>
+            <ChartBody chart={chart} />
           </div>
         ))}
       </div>

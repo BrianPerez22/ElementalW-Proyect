@@ -1,6 +1,6 @@
 import { CheckCircle2, ExternalLink, Globe, GraduationCap, Sparkles } from 'lucide-react';
 import { site } from '../data/site';
-import { asset } from '../utils';
+import LivePreview from './LivePreview';
 
 export default function About() {
   const { about } = site;
@@ -34,14 +34,7 @@ export default function About() {
 
         <div className="lg:col-span-5">
           <div className="bg-gradient-to-br from-white to-rose-50/60 p-8 rounded-3xl border border-rose-200/80 shadow-sm space-y-6">
-            <div className="rounded-2xl overflow-hidden border border-rose-100 bg-rose-50 max-h-64">
-              <img
-                src={asset('app-preview.png')}
-                alt="Vista previa de la aplicación Elemental W"
-                className="w-full h-full object-cover object-top"
-                loading="lazy"
-              />
-            </div>
+            <LivePreview />
             <div className="w-12 h-12 rounded-2xl bg-rose-600 text-white flex items-center justify-center shadow-md shadow-rose-500/30">
               <GraduationCap className="w-6 h-6" />
             </div>

@@ -6,7 +6,7 @@ import Hero from './components/Hero';
 import Investigaciones from './components/Investigaciones';
 import Metrics from './components/Metrics';
 import Pillars from './components/Pillars';
-import ResearchModal from './components/ResearchModal';
+import ResearchDrawer from './components/ResearchDrawer';
 import { investigaciones } from './data/investigaciones';
 
 const idFromHash = (): string | null => {
@@ -44,7 +44,10 @@ export default function App() {
     return () => window.removeEventListener('hashchange', onHash);
   }, []);
 
-  const selected = investigaciones.find((r) => r.id === selectedId) ?? null;
+  const index = investigaciones.findIndex((r) => r.id === selectedId);
+  const selected = index >= 0 ? investigaciones[index] : null;
+  const prev = index > 0 ? investigaciones[index - 1] : null;
+  const next = index >= 0 && index < investigaciones.length - 1 ? investigaciones[index + 1] : null;
 
   return (
     <div className="min-h-screen bg-[#FAF7F8] text-[#2D1A22] font-sans relative selection:bg-rose-200 selection:text-rose-950 overflow-x-hidden">
@@ -60,7 +63,15 @@ export default function App() {
 
       <Footer />
 
-      {selected && <ResearchModal research={selected} onClose={closeResearch} />}
+      {selected && (
+        <ResearchDrawer
+          research={selected}
+          prev={prev}
+          next={next}
+          onClose={closeResearch}
+          onNavigate={openResearch}
+        />
+      )}
     </div>
   );
 }

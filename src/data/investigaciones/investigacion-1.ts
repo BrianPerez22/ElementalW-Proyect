@@ -1,4 +1,14 @@
-import type { Research } from '../../types';
+import type { ComparisonItem, Research } from '../../types';
+
+/** Resultados por competencia (póster). Se exporta para reutilizarlos en las métricas globales. */
+export const competencias: ComparisonItem[] = [
+  { label: 'C1 Clasificación', a: 86.1, b: 91.7, delta: 5.6 },
+  { label: 'C2 Nomenclatura', a: 80.6, b: 76.4, delta: -4.2 },
+  { label: 'C3 Fórmulas', a: 52.8, b: 79.2, delta: 26.4 },
+  { label: 'C4 Ácido-Base', a: 91.7, b: 86.1, delta: -5.6 },
+  { label: 'C5 Balanceo', a: 62.0, b: 76.9, delta: 14.8 },
+  { label: 'C6 Estequiometría', a: 72.2, b: 94.4, delta: 22.2 },
+];
 
 /** Investigación 1 — Póster de Research Summit 2026 (pre-test / post-test). */
 export const investigacion1: Research = {
@@ -59,14 +69,7 @@ export const investigacion1: Research = {
       title: 'Resultados por competencia',
       caption: 'Desempeño (%) pre-test vs. post-test por competencia (n = 36).',
       seriesLabels: ['Pre-test', 'Post-test'],
-      items: [
-        { label: 'C1 Clasificación', a: 86.1, b: 91.7 },
-        { label: 'C2 Nomenclatura', a: 80.6, b: 76.4 },
-        { label: 'C3 Fórmulas', a: 52.8, b: 79.2 },
-        { label: 'C4 Ácido-Base', a: 91.7, b: 86.1 },
-        { label: 'C5 Balanceo', a: 62.0, b: 76.9 },
-        { label: 'C6 Estequiometría', a: 72.2, b: 94.4 },
-      ],
+      items: competencias,
     },
     {
       type: 'stats',

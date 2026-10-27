@@ -20,7 +20,7 @@ export default function ComparisonChart({ title, caption, seriesLabels, items }:
 
       <div className="space-y-4">
         {items.map((it) => {
-          const diff = it.b - it.a;
+          const diff = it.delta ?? it.b - it.a;
           return (
             <div key={it.label} className="space-y-1.5">
               <div className="flex items-center justify-between text-xs font-semibold text-rose-950">
