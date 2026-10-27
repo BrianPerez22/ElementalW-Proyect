@@ -3,6 +3,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import type { Research } from '../types';
 import { asset } from '../utils';
 import BlockRenderer from './BlockRenderer';
+import Chispa from './Chispa';
 import StatusBadge from './StatusBadge';
 
 interface Props {
@@ -56,24 +57,17 @@ export default function ResearchDrawer({ research: r, prev, next, onClose, onNav
 
   return (
     <div className="fixed inset-0 z-[60]">
-      <div
-        onClick={requestClose}
-        aria-hidden="true"
-        className={`absolute inset-0 bg-rose-950/60 backdrop-blur-sm transition-opacity duration-300 ${
-          shown ? 'opacity-100' : 'opacity-0'
-        }`}
-      />
-
       <aside
         role="dialog"
         aria-modal="true"
         aria-labelledby="research-title"
-        className={`absolute right-0 top-0 h-full w-full md:w-[min(920px,88vw)] bg-[#FAF7F8] border-l border-rose-200 shadow-2xl flex flex-col transition-transform duration-300 ease-out ${
+        className={`absolute inset-0 w-full h-full bg-[#FAF7F8] flex flex-col transition-transform duration-300 ease-out ${
           shown ? 'translate-x-0' : 'translate-x-full'
         }`}
       >
         {/* Barra superior fija */}
-        <div className="shrink-0 h-16 px-5 sm:px-8 flex items-center justify-between gap-3 border-b border-rose-200/70 bg-white/85 backdrop-blur">
+        <div className="shrink-0 border-b border-rose-200/70 bg-white/85 backdrop-blur">
+          <div className="max-w-6xl mx-auto h-16 px-5 sm:px-10 flex items-center justify-between gap-3">
           <button
             ref={closeRef}
             onClick={requestClose}
@@ -91,19 +85,28 @@ export default function ResearchDrawer({ research: r, prev, next, onClose, onNav
               <X className="w-5 h-5" />
             </button>
           </div>
+          </div>
         </div>
 
         {/* Contenido con scroll propio */}
         <div ref={scrollRef} className="flex-1 overflow-y-auto">
-          <div className="px-5 sm:px-8 py-8 space-y-8">
-            <header className="border-b border-rose-200 pb-6">
-              <p className="text-[11px] font-bold uppercase tracking-widest text-rose-500">
-                Investigaciones / #{r.number}
-              </p>
-              <h2 id="research-title" className="font-serif text-2xl sm:text-4xl font-bold text-rose-950 mt-2 leading-tight">
-                {r.title}
-              </h2>
-              <p className="text-xs sm:text-sm text-rose-700 font-semibold mt-2">{r.category}</p>
+          <div className="max-w-6xl mx-auto px-5 sm:px-10 py-10 space-y-10">
+            <header className="border-b border-rose-200 pb-6 flex items-end justify-between gap-6">
+              <div>
+                <p className="text-[11px] font-bold uppercase tracking-widest text-rose-500">
+                  Investigaciones / #{r.number}
+                </p>
+                <h2 id="research-title" className="font-serif text-2xl sm:text-4xl font-bold text-rose-950 mt-2 leading-tight">
+                  {r.title}
+                </h2>
+                <p className="text-xs sm:text-sm text-rose-700 font-semibold mt-2">{r.category}</p>
+              </div>
+              <Chispa
+                variant="feliz"
+                animate
+                flip={Number(r.number) % 2 === 0}
+                className="hidden md:block w-24 shrink-0"
+              />
             </header>
 
             <div className={`grid grid-cols-1 gap-8 ${r.poster ? 'lg:grid-cols-5' : ''}`}>

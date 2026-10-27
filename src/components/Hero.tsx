@@ -1,5 +1,7 @@
 import { ArrowDown, Atom, BookOpen, ExternalLink, Globe, TestTube2 } from 'lucide-react';
 import { site } from '../data/site';
+import Chispa from './Chispa';
+import ScienceBackground from './ScienceBackground';
 
 interface Props {
   visible: boolean;
@@ -17,6 +19,7 @@ export default function Hero({ visible, onEnter }: Props) {
       <div className="absolute -top-40 -left-40 w-[30rem] h-[30rem] bg-rose-200/50 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute -bottom-40 -right-40 w-[30rem] h-[30rem] bg-pink-200/60 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[45rem] h-[45rem] bg-rose-100/40 rounded-full blur-3xl pointer-events-none" />
+      <ScienceBackground className="absolute inset-0" />
 
       <div className="relative z-10 flex items-center justify-between max-w-7xl w-full mx-auto">
         <div className="flex items-center gap-3">
@@ -31,6 +34,7 @@ export default function Hero({ visible, onEnter }: Props) {
       </div>
 
       <div className="relative z-10 max-w-4xl mx-auto my-auto text-center space-y-8 px-4">
+
         <div className="inline-flex items-center gap-2 text-rose-700 text-xs sm:text-sm font-semibold tracking-widest uppercase bg-white/80 px-4 py-1.5 rounded-full border border-rose-200/60 shadow-sm backdrop-blur-sm">
           <span className="w-2 h-2 rounded-full bg-rose-500 animate-pulse" />
           Plataforma de enseñanza e investigación
@@ -67,6 +71,13 @@ export default function Hero({ visible, onEnter }: Props) {
             <ExternalLink className="w-3.5 h-3.5 opacity-60" />
           </a>
         </div>
+      </div>
+
+      <div className="hidden xl:flex absolute right-16 2xl:right-32 top-1/2 -translate-y-1/2 z-10 flex-col items-center gap-3 pointer-events-none">
+        <span className="bg-white border border-rose-200 text-rose-900 text-sm font-semibold px-4 py-2 rounded-2xl shadow-sm">
+          ¡Hola! Soy Chispa
+        </span>
+        <Chispa variant="feliz" animate className="w-52 2xl:w-64" title="Chispa, la mascota de Elemental W" />
       </div>
 
       <div className="relative z-10 flex flex-col sm:flex-row items-center justify-between max-w-7xl w-full mx-auto gap-4 text-xs font-medium text-rose-800/60 border-t border-rose-200/60 pt-6">

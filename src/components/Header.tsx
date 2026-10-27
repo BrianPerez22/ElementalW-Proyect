@@ -9,7 +9,6 @@ const links = [
   { id: 'about', label: '¿Qué es?' },
   { id: 'enfoque', label: 'Enfoque' },
   { id: 'metricas', label: 'Métricas' },
-  { id: 'investigaciones', label: 'Investigaciones' },
 ];
 
 export default function Header({ onNavigate }: Props) {
@@ -17,6 +16,9 @@ export default function Header({ onNavigate }: Props) {
     <header className="fixed top-0 left-0 right-0 z-40 bg-[#FAF7F8]/85 backdrop-blur-md border-b border-rose-200/50">
       <div className="max-w-7xl mx-auto px-6 sm:px-10 h-20 flex items-center justify-between">
         <button onClick={() => onNavigate('about')} className="flex items-center gap-3 group text-left">
+          <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-rose-600 to-pink-500 text-white font-serif font-bold text-xl flex items-center justify-center shadow-md shadow-rose-500/20 group-hover:scale-105 transition-transform">
+            W
+          </div>
           <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-rose-600 to-pink-500 text-white font-serif font-bold text-xl flex items-center justify-center shadow-md shadow-rose-500/20 group-hover:scale-105 transition-transform">
             W
           </div>

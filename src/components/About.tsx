@@ -1,5 +1,6 @@
 import { CheckCircle2, ExternalLink, Globe, GraduationCap, Sparkles } from 'lucide-react';
 import { site } from '../data/site';
+import Chispa from './Chispa';
 import LivePreview from './LivePreview';
 
 export default function About() {
@@ -20,16 +21,19 @@ export default function About() {
           <p className="text-base sm:text-lg text-rose-900/80 leading-relaxed">{about.paragraphs[0]}</p>
           <p className="text-sm sm:text-base text-rose-800/70 leading-relaxed">{about.paragraphs[1]}</p>
 
-          <a
-            href={site.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-3 px-6 py-3.5 rounded-2xl bg-rose-950 hover:bg-rose-900 text-white font-bold text-sm shadow-md transition-all group"
-          >
-            <Globe className="w-4 h-4 text-rose-300" />
-            <span>Ir al sitio oficial: {site.urlLabel}</span>
-            <ExternalLink className="w-4 h-4 opacity-70 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
-          </a>
+          <div className="flex items-end gap-6">
+            <a
+              href={site.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-3 px-6 py-3.5 rounded-2xl bg-rose-950 hover:bg-rose-900 text-white font-bold text-sm shadow-md transition-all group"
+            >
+              <Globe className="w-4 h-4 text-rose-300" />
+              <span>Ir al sitio oficial: {site.urlLabel}</span>
+              <ExternalLink className="w-4 h-4 opacity-70 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+            </a>
+            <Chispa flip animate className="hidden sm:block w-24 shrink-0" />
+          </div>
         </div>
 
         <div className="lg:col-span-5">

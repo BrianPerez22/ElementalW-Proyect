@@ -6,6 +6,7 @@ import Hero from './components/Hero';
 import Investigaciones from './components/Investigaciones';
 import Metrics from './components/Metrics';
 import Pillars from './components/Pillars';
+import ScienceBackground from './components/ScienceBackground';
 import ResearchDrawer from './components/ResearchDrawer';
 import { investigaciones } from './data/investigaciones';
 
@@ -51,6 +52,7 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-[#FAF7F8] text-[#2D1A22] font-sans relative selection:bg-rose-200 selection:text-rose-950 overflow-x-hidden">
+      <ScienceBackground className="fixed inset-0 z-0" />
       <Hero visible={coverVisible} onEnter={() => setCoverVisible(false)} />
       <Header onNavigate={scrollToSection} />
 

@@ -1,6 +1,7 @@
 import { FileText, Maximize2 } from 'lucide-react';
 import type { Research } from '../types';
 import { asset } from '../utils';
+import Chispa from './Chispa';
 import StatusBadge from './StatusBadge';
 
 interface Props {
@@ -19,7 +20,7 @@ export default function ResearchCard({ research: r, onOpen }: Props) {
           <StatusBadge status={r.status} />
         </div>
 
-        {r.poster && (
+        {r.poster ? (
           <button
             onClick={() => onOpen(r.id)}
             className="block w-full h-40 overflow-hidden rounded-2xl border border-rose-100 bg-rose-50"
@@ -32,6 +33,10 @@ export default function ResearchCard({ research: r, onOpen }: Props) {
               className="w-full h-full object-cover object-top group-hover:scale-[1.02] transition-transform duration-500"
             />
           </button>
+        ) : (
+          <div className="h-40 rounded-2xl border border-rose-100 bg-gradient-to-br from-rose-50 to-pink-100 flex items-center justify-center">
+            <Chispa animate flip={Number(r.number) % 2 === 0} className="w-28" />
+          </div>
         )}
 
         <h3 className="font-serif text-xl sm:text-2xl font-bold text-rose-950 leading-snug">{r.title}</h3>

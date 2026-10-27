@@ -20,3 +20,38 @@ body {
     transition: none !important;
   }
 }
+
+/* Chispa: flotación suave */
+@keyframes chispa-float {
+  0%,
+  100% {
+    transform: translateY(0) rotate(-2deg);
+  }
+  50% {
+    transform: translateY(-10px) rotate(2deg);
+  }
+}
+.chispa-float {
+  animation: chispa-float 5s ease-in-out infinite;
+}
+
+/* Fondo de símbolos de ciencias básicas */
+@keyframes sci-drift {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) rotate(var(--r0, 0deg));
+  }
+  50% {
+    transform: translate3d(var(--dx, 0px), var(--dy, -24px), 0) rotate(var(--r1, 8deg));
+  }
+}
+@keyframes sci-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+.sci-item {
+  position: absolute;
+  will-change: transform;
+  animation: sci-drift 24s ease-in-out infinite;
+}
