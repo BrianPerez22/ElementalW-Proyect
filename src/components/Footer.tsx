@@ -1,5 +1,6 @@
 import { site } from '../data/site';
 import Chispa from './Chispa';
+import Logo from './Logo';
 
 export default function Footer() {
   return (
@@ -9,9 +10,7 @@ export default function Footer() {
       </div>
       <div className="max-w-7xl mx-auto px-6 sm:px-10 flex flex-col sm:flex-row items-center justify-between gap-6">
         <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-xl bg-rose-600 text-white font-serif font-bold text-lg flex items-center justify-center">
-            W
-          </div>
+          <Logo className="w-9 h-9 rounded-xl ring-1 ring-rose-200/30" />
           <div>
             <span className="font-serif font-bold text-base block">Elemental W</span>
             <span className="text-xs text-rose-300/80">Plataforma educativa de ciencias básicas</span>

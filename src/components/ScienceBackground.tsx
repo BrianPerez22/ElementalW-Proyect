@@ -57,7 +57,7 @@ const ITEMS: Item[] = glyphs.slice(0, COLS * ROWS).map((glyph, i) => {
     top: clamp(((row + 0.5) / ROWS) * 100 + (rnd() - 0.5) * 10),
     size: isText ? 26 + rnd() * 30 : 44 + rnd() * 40,
     color: COLORS[Math.floor(rnd() * COLORS.length)],
-    opacity: 0.07 + rnd() * 0.08,
+    opacity: 0.06 + rnd() * 0.07,
     duration: 20 + rnd() * 20,
     delay: rnd() * 30,
     dx: (rnd() - 0.5) * 50,

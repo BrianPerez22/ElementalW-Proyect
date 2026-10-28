@@ -55,3 +55,19 @@ body {
   will-change: transform;
   animation: sci-drift 24s ease-in-out infinite;
 }
+
+/*
+ * Halo suave detrás de un bloque de texto: tapa los símbolos del fondo justo donde se lee,
+ * con bordes difuminados (no se nota como caja).
+ */
+.soft-backdrop {
+  position: relative;
+}
+.soft-backdrop::before {
+  content: '';
+  position: absolute;
+  inset: -2rem -3rem;
+  z-index: -1;
+  pointer-events: none;
+  background: radial-gradient(farthest-corner, rgba(250, 247, 248, 0.96) 60%, rgba(250, 247, 248, 0) 100%);
+}

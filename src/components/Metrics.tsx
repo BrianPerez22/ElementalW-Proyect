@@ -47,7 +47,7 @@ export default function Metrics() {
   return (
     <section id="metricas" className="scroll-mt-32 border-t border-rose-200/60 pt-20">
       <div className="flex items-end justify-between gap-6 mb-10">
-        <div className="max-w-3xl">
+        <div className="soft-backdrop max-w-3xl">
           <span className="text-xs font-bold text-rose-500 uppercase tracking-widest">En números</span>
           <h2 className="font-serif text-3xl sm:text-4xl font-bold text-rose-950 mt-2">Métricas globales</h2>
           <p className="text-sm text-rose-800/70 mt-2">

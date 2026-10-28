@@ -11,7 +11,7 @@ const icons: Record<string, ReactNode> = {
 export default function Pillars() {
   return (
     <section id="enfoque" className="scroll-mt-32 border-t border-rose-200/60 pt-20">
-      <div className="max-w-3xl mb-12">
+      <div className="soft-backdrop max-w-3xl mb-12">
         <span className="text-xs font-bold text-rose-500 uppercase tracking-widest">Enfoque</span>
         <h2 className="font-serif text-3xl sm:text-4xl font-bold text-rose-950 mt-2">
           Una herramienta para tres necesidades

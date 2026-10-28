@@ -7,7 +7,7 @@ export default function Investigaciones({ onOpen }: { onOpen: (id: string) => vo
   return (
     <section id="investigaciones" className="scroll-mt-32 border-t border-rose-200/60 pt-20">
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
-        <div>
+        <div className="soft-backdrop">
           <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-rose-600 text-white font-semibold text-xs tracking-wider uppercase mb-3">
             <Microscope className="w-3.5 h-3.5" />
             Investigaciones

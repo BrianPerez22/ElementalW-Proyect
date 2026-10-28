@@ -1,6 +1,7 @@
 import { ArrowDown, Atom, BookOpen, ExternalLink, Globe, TestTube2 } from 'lucide-react';
 import { site } from '../data/site';
 import Chispa from './Chispa';
+import Logo from './Logo';
 import ScienceBackground from './ScienceBackground';
 
 interface Props {
@@ -23,9 +24,7 @@ export default function Hero({ visible, onEnter }: Props) {
 
       <div className="relative z-10 flex items-center justify-between max-w-7xl w-full mx-auto">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-rose-600 to-pink-500 text-white font-serif font-bold text-xl flex items-center justify-center shadow-lg shadow-rose-500/20">
-            W
-          </div>
+          <Logo className="w-10 h-10 rounded-xl shadow-lg shadow-rose-500/20" />
           <span className="font-serif font-bold text-rose-950 tracking-wider text-sm">ELEMENTAL W</span>
         </div>
         <span className="text-xs font-bold uppercase tracking-widest text-rose-600 bg-rose-100/80 px-4 py-1.5 rounded-full border border-rose-200/70">
@@ -33,8 +32,8 @@ export default function Hero({ visible, onEnter }: Props) {
         </span>
       </div>
 
-      <div className="relative z-10 max-w-4xl mx-auto my-auto text-center space-y-8 px-4">
-
+      <div className="soft-backdrop relative z-10 max-w-4xl mx-auto my-auto text-center space-y-8 px-4">
+        <Chispa variant="feliz" animate className="xl:hidden w-20 mx-auto" title="Chispa, la mascota de Elemental W" />
         <div className="inline-flex items-center gap-2 text-rose-700 text-xs sm:text-sm font-semibold tracking-widest uppercase bg-white/80 px-4 py-1.5 rounded-full border border-rose-200/60 shadow-sm backdrop-blur-sm">
           <span className="w-2 h-2 rounded-full bg-rose-500 animate-pulse" />
           Plataforma de enseñanza e investigación
@@ -42,9 +41,8 @@ export default function Hero({ visible, onEnter }: Props) {
 
         <h1 className="font-serif text-5xl sm:text-7xl md:text-8xl font-black text-rose-950 tracking-tight leading-none">
           Elemental{' '}
-          <span className="italic font-normal bg-gradient-to-r from-rose-600 via-pink-500 to-rose-400 bg-clip-text text-transparent">
-            W
-          </span>
+          <span className="sr-only">W</span>
+          <Logo className="inline-block h-[0.8em] w-[0.8em] rounded-[0.18em] shadow-lg shadow-rose-500/30" />
         </h1>
 
         <p className="text-base sm:text-xl md:text-2xl text-rose-900/80 max-w-2xl mx-auto font-light leading-relaxed">

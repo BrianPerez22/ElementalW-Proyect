@@ -8,7 +8,7 @@ export default function About() {
   return (
     <section id="about" className="scroll-mt-32">
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-        <div className="lg:col-span-7 space-y-6">
+        <div className="soft-backdrop lg:col-span-7 space-y-6">
           <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-rose-100 text-rose-700 font-semibold text-xs tracking-wider uppercase">
             <Sparkles className="w-3.5 h-3.5" />
             {about.badge}
