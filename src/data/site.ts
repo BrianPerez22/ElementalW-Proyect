@@ -3,13 +3,13 @@ export const site = {
   url: 'https://elementalw.site',
   urlLabel: 'elementalw.site',
   year: 2026,
-  draftLabel: 'Borrador',
+  admin: 'Brian David Pérez Herrera',
   heroTagline:
     'Una aplicación web para enseñar ciencias básicas, ayudar a profesores y estudiantes a entenderse mejor y hacer investigación con evidencia.',
 
   about: {
     badge: '¿Qué es el proyecto?',
-    // Descripción (borrador) indicada por el equipo
+    // Descripción indicada por el equipo
     paragraphs: [
       'Elemental W es una aplicación web diseñada para la enseñanza de ciencias básicas y la investigación con estudiantes y profesores. Con ella ya se han realizado investigaciones, y sigue avanzando técnicamente para convertirse en una aplicación funcional.',
       'La meta es doble: que los profesores la usen como herramienta para entender mejor a sus estudiantes, y que los estudiantes puedan identificar sus falencias, mejorar con múltiples opciones y aprender más de lo que lograrían con una clase tradicional.',
@@ -18,8 +18,8 @@ export const site = {
     purposeText:
       'Conectar la enseñanza de las ciencias básicas con evidencia sobre cómo aprenden realmente los estudiantes.',
     purposePoints: [
-      { label: 'Estado del proyecto', value: 'En desarrollo' },
-      { label: 'Contenido del sitio', value: 'Borrador' },
+      { label: 'Investigaciones realizadas', value: '2' },
+      { label: 'Estudiantes participantes', value: '82' },
     ],
   },
 

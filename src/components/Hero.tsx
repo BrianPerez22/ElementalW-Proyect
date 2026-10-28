@@ -28,7 +28,7 @@ export default function Hero({ visible, onEnter }: Props) {
           <span className="font-serif font-bold text-rose-950 tracking-wider text-sm">ELEMENTAL W</span>
         </div>
         <span className="text-xs font-bold uppercase tracking-widest text-rose-600 bg-rose-100/80 px-4 py-1.5 rounded-full border border-rose-200/70">
-          Ciencias Básicas • {site.year} • {site.draftLabel}
+          Ciencias Básicas • {site.year}
         </span>
       </div>
 

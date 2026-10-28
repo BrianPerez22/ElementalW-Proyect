@@ -3,6 +3,8 @@
 * { box-sizing: border-box; }
 [hidden] { display: none !important; }
 html, body { height: 100%; margin: 0; }
+/* Altura real visible (móviles con barras que aparecen y desaparecen) y sin desplazamiento. */
+html, body { height: 100dvh; width: 100%; overflow: hidden; }
 #root { display: contents; }
 body {
   color: #5d3140; background: #f9f4ef;
@@ -12,7 +14,7 @@ body {
 button { font: inherit; color: inherit; cursor: pointer; }
 button:disabled { opacity: .25; cursor: default; }
 :focus-visible { outline: 3px solid #cf4173; outline-offset: 3px; }
-#deck { position: relative; flex: 1; min-height: 0; overflow: hidden; outline: none; }
+#deck { position: relative; flex: 1; min-height: 0; width: 100%; overflow: hidden; outline: none; }
 #canvas {
   width: 1280px; height: 720px; position: absolute; left: 50%; top: 50%;
   transform: translate(-50%, -50%) scale(var(--scale, 1)); transform-origin: center;
@@ -277,7 +279,7 @@ p { white-space: pre-line; }
 .slide--gracias .slide-footer { display: none; }
 .slide--gracias .star { background: var(--tint); }
 
-.controls { position: relative; display: flex; align-items: center; justify-content: center; gap: 12px; height: 48px; flex: 0 0 48px; padding: 1px 22px 3px; font-size: 12px; line-height: 1.2; color: #735461; background: #f9f4ef; }
+.controls { position: relative; display: flex; align-items: center; justify-content: center; gap: 12px; height: calc(48px + env(safe-area-inset-bottom, 0px)); flex: 0 0 auto; padding: 1px 22px calc(3px + env(safe-area-inset-bottom, 0px)); font-size: 12px; line-height: 1.2; color: #735461; background: #f9f4ef; }
 .controls button { min-width: 44px; min-height: 44px; border: 0; border-radius: 10px; background: transparent; }
 .controls button:hover:not(:disabled) { background: #e9bfda50; color: #5d3140; }
 #previous, #next { font-size: 22px; }
@@ -294,3 +296,8 @@ p { white-space: pre-line; }
 @media (max-width: 1100px) { #keyboard-help { display: none; } .controls { gap: 8px; } }
 @media (max-width: 700px) { #scene-nav { display: none; } .controls { gap: 14px; padding-inline: 10px; } }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; } }
+
+/* Teléfono en vertical: la escena se ve pequeña; se invita a girarlo. */
+@media (orientation: portrait) and (max-width: 700px) {
+  #deck::after { content: "Gira el teléfono para ver la presentación más grande"; position: absolute; left: 12px; right: 12px; bottom: 10px; text-align: center; font-size: 12px; color: #735461; pointer-events: none; }
+}

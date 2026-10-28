@@ -1,6 +1,6 @@
 # Elemental W · Sitio de presentación
 
-Sitio web (borrador) que presenta **Elemental W**, una aplicación web para la enseñanza de ciencias básicas e investigación con estudiantes y profesores, y las investigaciones realizadas con ella.
+Sitio web que presenta **Elemental W**, una aplicación web para la enseñanza de ciencias básicas e investigación con estudiantes y profesores, y las investigaciones realizadas con ella.
 
 Stack: **React 18 + TypeScript + Vite + Tailwind CSS + lucide-react**. Solo front-end, sin backend.
 

@@ -66,13 +66,23 @@ export default function Pitch({ contenido }: { contenido: Contenido }) {
     const lienzo = lienzoRef.current;
     if (!mazo || !lienzo) return;
     const ajustar = () => {
-      const escala = Math.min(mazo.clientWidth / 1280, mazo.clientHeight / 720);
-      lienzo.style.setProperty('--scale', String(escala));
+      const caja = mazo.getBoundingClientRect();
+      const escala = Math.min(caja.width / 1280, caja.height / 720);
+      if (escala > 0) lienzo.style.setProperty('--scale', String(escala));
     };
     const observador = new ResizeObserver(ajustar);
     observador.observe(mazo);
+    // Giro del dispositivo y barras del navegador móvil: reajusta a lo realmente visible.
+    window.addEventListener('resize', ajustar);
+    window.addEventListener('orientationchange', ajustar);
+    window.visualViewport?.addEventListener('resize', ajustar);
     ajustar();
-    return () => observador.disconnect();
+    return () => {
+      observador.disconnect();
+      window.removeEventListener('resize', ajustar);
+      window.removeEventListener('orientationchange', ajustar);
+      window.visualViewport?.removeEventListener('resize', ajustar);
+    };
   }, []);
 
   // Animación de entrada cada vez que cambia la escena (antes de pintar, sin parpadeo).

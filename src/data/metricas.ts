@@ -1,7 +1,5 @@
 import type { GlobalMetric, MetricChart } from '../types';
 import { investigaciones } from './investigaciones';
-import { competencias } from './investigaciones/investigacion-1';
-import { aciertoEvaluaciones } from './investigaciones/investigacion-2';
 
 const enProgreso = investigaciones.filter((r) => r.status === 'en-progreso').length;
 const completadas = investigaciones.length - enProgreso;
@@ -81,40 +79,40 @@ export const globalCharts: MetricChart[] = [
   {
     type: 'comparison',
     source: 'Investigación 1',
-    title: 'Desempeño global',
-    caption: 'Promedio del grupo completo (n = 36). Mejora de desempeño inmediato, sin inferir causalidad.',
+    title: 'Mejora tras usar Elemental',
+    caption: 'Desempeño inmediato, pre-test vs. post-test (n = 36): grupo completo y las competencias que más mejoraron.',
     seriesLabels: ['Pre-test', 'Post-test'],
-    items: [{ label: 'Grupo completo', a: 71.8, b: 83.3, delta: 11.6 }],
+    items: [
+      { label: 'Grupo completo', a: 71.8, b: 83.3, delta: 11.6 },
+      { label: 'Fórmulas', a: 52.8, b: 79.2, delta: 26.4 },
+      { label: 'Estequiometría', a: 72.2, b: 94.4, delta: 22.2 },
+      { label: 'Balanceo', a: 62.0, b: 76.9, delta: 14.8 },
+    ],
   },
   {
     type: 'bars',
     source: 'Investigación 2',
-    title: 'Acierto medio por evaluación final',
-    caption: '90 intentos. *Probablemente subestimado por una falla en la actividad de «unir».',
-    items: aciertoEvaluaciones,
+    title: 'Lo que mejor funcionó',
+    caption: 'Física y Química en la Universidad EAN: evaluaciones finales y percepción de uso.',
+    items: [
+      { label: 'Acierto medio en Clasificación de la materia', value: 95 },
+      { label: 'Estudiantes entrevistados que vieron la interfaz sencilla (11 de 13)', value: 85 },
+      { label: 'Acierto medio en Física · Múltiples dimensiones', value: 84 },
+      { label: 'Intentos satisfactorios o dominados', value: 76 },
+    ],
   },
   {
     type: 'sources',
     wide: true,
     source: 'Investigaciones 1 y 2',
-    title: 'De los datos a los criterios',
-    caption: 'Siete fuentes de datos entre las dos investigaciones, contrastadas entre sí.',
+    title: 'Del aula a la evidencia',
+    caption: 'Elemental ya se probó en clases reales de dos áreas de ciencias básicas y dejó una ruta clara de mejora.',
     inputs: [
-      'Pre-test y post-test (Inv. 1)',
-      'Encuesta de percepción estudiantil (Inv. 1)',
-      'Evaluaciones finales y quiz de fricción (Inv. 2)',
-      'Entrevistas y encuestas (Inv. 2)',
-      'Telemetría · Learning Analytics y reportes de error (Inv. 2)',
+      '82 participaciones de estudiantes y 4 docentes',
+      'Química general y Física mecánica · Universidad EAN',
+      '7 fuentes de datos contrastadas entre sí',
+      '2 pósteres académicos: Research Summit 2026 y V EISI 2026',
     ],
-    output: '18 criterios pedagógicos, funcionales y de usabilidad',
-  },
-  {
-    type: 'comparison',
-    wide: true,
-    source: 'Investigación 1',
-    title: 'Desempeño por competencia',
-    caption: 'Pre-test vs. post-test por competencia (n = 36).',
-    seriesLabels: ['Pre-test', 'Post-test'],
-    items: competencias,
+    output: 'Una app aceptada en el aula y 18 criterios para seguir creciendo',
   },
 ];

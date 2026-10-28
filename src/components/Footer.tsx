@@ -18,7 +18,9 @@ export default function Footer() {
         </div>
 
         <div className="text-center sm:text-right text-xs text-rose-300/70 space-y-1">
-          <p>© {site.year} Elemental W · Proyecto en desarrollo ({site.draftLabel.toLowerCase()})</p>
+          <p>
+            © {site.year} Elemental W · Administrado por: {site.admin}
+          </p>
           <p>
             Sitio oficial:{' '}
             <a href={site.url} target="_blank" rel="noopener noreferrer" className="text-rose-200 underline hover:text-white">
