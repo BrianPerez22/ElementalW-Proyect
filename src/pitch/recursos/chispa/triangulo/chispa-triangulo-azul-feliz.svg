@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 396.48 359.77">
+  <defs>
+    <style>
+      .cls-1 {
+        stroke-miterlimit: 10;
+      }
+
+      .cls-1, .cls-2 {
+        stroke-linecap: round;
+      }
+
+      .cls-1, .cls-2, .cls-3 {
+        fill: none;
+      }
+
+      .cls-1, .cls-2, .cls-3, .cls-4 {
+        stroke-width: 19px;
+      }
+
+      .cls-1, .cls-2, .cls-4 {
+        stroke: #31555d;
+      }
+
+      .cls-3 {
+        stroke: #96c6ea;
+        stroke-miterlimit: 4;
+      }
+
+      .cls-4 {
+        fill: #3db5ce;
+      }
+    </style>
+  </defs>
+  <ellipse class="cls-3" cx="197.62" cy="164.19" rx="171.1" ry="65.81" transform="translate(-56.81 199.92) rotate(-47.71)"/>
+  <path class="cls-4" d="M135.07,55.93c17.09-9.89,35.07-5.08,50.65,8.71l129.46,92.37c24.57,16.19,20.66,48.87-4.97,63.69l-119.62,69.2c-25.63,14.83-55.9,1.93-57.69-27.45l-15.53-158.27c-4.19-20.38.61-38.37,17.7-48.25Z"/>
+  <path class="cls-2" d="M206.54,272.75l-6.55,41.62M292.27,223.82l39.17,15.53"/>
+  <path class="cls-1" d="M208.54,171.32c-6.35-11.13-4.14-24.36,4.94-29.54,9.08-5.18,21.6-.36,27.95,10.77"/>
+  <path class="cls-2" d="M121.67,191.83l-54.13-8.13M261.65,111.94l20.53-50.74"/>
+</svg>

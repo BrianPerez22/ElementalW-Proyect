@@ -1,4 +1,4 @@
-import { FileText, Maximize2 } from 'lucide-react';
+import { FileText, Maximize2, Presentation } from 'lucide-react';
 import type { Research } from '../types';
 import { asset } from '../utils';
 import Chispa from './Chispa';
@@ -67,7 +67,7 @@ export default function ResearchCard({ research: r, onOpen }: Props) {
         </div>
       </div>
 
-      <div className="pt-6">
+      <div className="pt-6 space-y-2.5">
         <button
           onClick={() => onOpen(r.id)}
           className="w-full py-3.5 rounded-2xl bg-rose-950 hover:bg-rose-900 text-white font-bold text-xs sm:text-sm shadow-md hover:shadow-lg transition-all flex items-center justify-center gap-2"
@@ -75,6 +75,19 @@ export default function ResearchCard({ research: r, onOpen }: Props) {
           {r.poster ? <Maximize2 className="w-4 h-4" /> : <FileText className="w-4 h-4" />}
           <span>{r.poster ? 'Ver investigación y póster' : 'Ver investigación'}</span>
         </button>
+
+        {r.pitch && (
+          <a
+            href={asset(r.pitch.href)}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="w-full py-3.5 rounded-2xl bg-white hover:bg-rose-50 border-2 border-rose-300 hover:border-rose-500 text-rose-950 font-bold text-xs sm:text-sm shadow-sm transition-all flex items-center justify-center gap-2"
+          >
+            <Presentation className="w-4 h-4 text-rose-600" />
+            <span>{r.pitch.label}</span>
+            {r.pitch.detail && <span className="font-medium text-rose-800/70">· {r.pitch.detail}</span>}
+          </a>
+        )}
       </div>
     </article>
   );

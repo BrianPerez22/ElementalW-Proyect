@@ -16,19 +16,29 @@ npm run preview    # prueba local del build
 ## Estructura
 
 ```
+index.html                                  ← sitio principal
+pitch/
+  investigacion-2/index.html                ← página del pitch de la Investigación 2 (solo el pitch)
 public/
-  investigacion-1/poster.pdf, poster.png   ← póster de la Investigación 1
+  investigacion-1/poster.pdf, poster.png    ← póster de la Investigación 1
+  investigacion-2/poster.pdf, poster.png    ← póster de la Investigación 2 (V EISI 2026)
   app-preview.png, favicon.svg
+docs/
+  pitch-investigacion-2.md                  ← diseño del pitch y trazabilidad de sus cifras
 src/
-  types.ts                  ← modelo de datos (Research, bloques de contenido)
+  types.ts                  ← modelo de datos (Research, Pitch, bloques de contenido)
   data/
     site.ts                 ← textos del sitio (descripción, pilares)
-    metricas.ts             ← métricas globales
+    metricas.ts             ← métricas globales (panorama de las dos investigaciones)
     investigaciones/
       index.ts              ← REGISTRO de investigaciones
-      investigacion-1.ts    ← póster Research Summit 2026
-      investigacion-2.ts    ← en progreso (encuestas/entrevistas + telemetría)
+      investigacion-1.ts    ← póster Research Summit 2026 (pre-test / post-test)
+      investigacion-2.ts    ← póster V EISI 2026 (estudio mixto, 18 criterios) + enlace al pitch
   components/               ← secciones, tarjetas, modal, gráfico
+  pitch/
+    motor/                  ← motor del pitch, compartido por todos los pitches
+    recursos/               ← ilustraciones de Chispa y fuentes del pitch
+    investigacion-2/        ← contenido.ts (textos y cifras) y main.tsx del pitch 2
 ```
 
 ## Agregar una nueva investigación
@@ -39,9 +49,35 @@ src/
 
 La tarjeta, el contador, el modal y el enlace directo (`#investigacion-3`) aparecen solos.
 
-Bloques disponibles en `blocks`: `paragraph`, `callout`, `stats`, `comparison` (gráfico de barras de dos series), `table`, `list` y `references`.
+Bloques disponibles en `blocks`: `paragraph`, `callout`, `stats`, `comparison` (gráfico de barras de dos series), `bars` (barras de una serie, en %), `table`, `list` y `references`.
 
 Cuando una investigación en progreso termine, cambia `status` a `'completada'` y actualiza `metricas.ts` si quieres mostrar sus cifras.
+
+## Pitch (presentación corta de una investigación)
+
+Cada pitch es una página **aparte** (su propio HTML) que muestra únicamente la presentación; el sitio
+principal solo enlaza a ella desde un botón en la tarjeta de la investigación.
+
+- **Investigación 2:** `pitch/investigacion-2/` → en el sitio publicado, `/pitch/investigacion-2/`.
+  12 escenas, ≈ 5 minutos. Teclas: `←` `→` (escena anterior/siguiente), `Home`/`End`, `F` (pantalla completa)
+  y `#7` en la URL abre directo la escena 7.
+- **Editar el texto o las cifras:** solo `src/pitch/investigacion-2/contenido.ts`
+  (`**negrita**` para destacar, `\n` para salto de línea, sin HTML). Trazabilidad de cada cifra en
+  `docs/pitch-investigacion-2.md`.
+- **El motor** (`src/pitch/motor/`) no tiene texto propio: dibuja cualquier `Contenido` (ver `tipos.ts`).
+
+### Agregar el pitch de la Investigación 1 (o de otra)
+
+1. Crea `src/pitch/investigacion-1/` con `contenido.ts` (`export const contenido: Contenido = {...}`,
+   puedes partir de `../investigacion-2/contenido.ts`) y `main.tsx` (cópialo del pitch 2 y cambia el import).
+2. Crea `pitch/investigacion-1/index.html` (cópialo de `pitch/investigacion-2/index.html` y cambia el título
+   y la ruta del script a `/src/pitch/investigacion-1/main.tsx`).
+3. En `vite.config.ts` agrega `'pitch-investigacion-1': './pitch/investigacion-1/index.html'` a `paginas`.
+4. En `src/data/investigaciones/investigacion-1.ts` agrega el campo
+   `pitch: { href: 'pitch/investigacion-1/', label: 'Abrir pitch', detail: '…' }`.
+   El botón aparece solo en la tarjeta.
+
+Las ilustraciones nuevas van en `src/pitch/recursos/chispa/` y se referencian en `assets` del contenido.
 
 ## Publicar en GitHub Pages
 

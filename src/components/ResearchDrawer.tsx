@@ -154,6 +154,7 @@ export default function ResearchDrawer({ research: r, prev, next, onClose, onNav
                   </h4>
                   <div className="text-xs text-rose-100/90 space-y-1">
                     <p><strong>Autores:</strong> {r.authors}</p>
+                    {r.collaborators && <p><strong>Colaboradores:</strong> {r.collaborators}</p>}
                     <p><strong>Área:</strong> {r.area}</p>
                     {r.event && <p><strong>Evento:</strong> {r.event}</p>}
                     {r.date && <p><strong>Fecha y lugar:</strong> {r.date}</p>}

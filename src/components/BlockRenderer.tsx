@@ -1,6 +1,7 @@
 import { AlertTriangle, Info } from 'lucide-react';
 import type { ContentBlock } from '../types';
 import ComparisonChart from './ComparisonChart';
+import { BarList } from './MetricCharts';
 
 const Title = ({ children }: { children?: string }) =>
   children ? <h4 className="font-bold text-rose-950 text-sm sm:text-base mb-2">{children}</h4> : null;
@@ -43,6 +44,17 @@ export default function BlockRenderer({ block }: { block: ContentBlock }) {
 
     case 'comparison':
       return <ComparisonChart {...block} />;
+
+    case 'bars':
+      return (
+        <figure className="bg-rose-50/40 border border-rose-100 rounded-2xl p-4 sm:p-5 space-y-4">
+          <div>
+            <h4 className="font-bold text-rose-950 text-sm">{block.title}</h4>
+            {block.caption && <figcaption className="text-xs text-rose-800/70 mt-0.5">{block.caption}</figcaption>}
+          </div>
+          <BarList items={block.items} />
+        </figure>
+      );
 
     case 'table':
       return (

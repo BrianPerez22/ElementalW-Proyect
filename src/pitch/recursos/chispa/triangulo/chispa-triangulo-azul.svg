@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 396.48 359.77">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #f5f2f7;
+      }
+
+      .cls-2 {
+        fill: #31555d;
+      }
+
+      .cls-3 {
+        fill: #5d3140;
+        stroke: #32555d;
+        stroke-linecap: round;
+      }
+
+      .cls-3, .cls-4, .cls-5 {
+        stroke-width: 19px;
+      }
+
+      .cls-4 {
+        fill: none;
+        stroke: #96c6ea;
+        stroke-miterlimit: 4;
+      }
+
+      .cls-5 {
+        fill: #3db5ce;
+        stroke: #31555d;
+      }
+    </style>
+  </defs>
+  <ellipse class="cls-4" cx="201.91" cy="176.83" rx="158.86" ry="61.1" transform="translate(-44.76 71.05) rotate(-18)"/>
+  <path class="cls-5" d="M201.91,60.74c18.33,0,30.55,12.22,36.66,30.55l61.1,134.42c12.22,24.44-6.11,48.88-33.6,48.88h-128.31c-27.49,0-45.82-24.44-33.6-48.88l61.1-134.42c6.11-18.33,18.33-30.55,36.66-30.55Z"/>
+  <circle class="cls-2" cx="220.24" cy="176.83" r="21.38"/>
+  <circle class="cls-1" cx="227.87" cy="169.19" r="6.11"/>
+  <path class="cls-3" d="M159.14,268.48l-24.44,30.55M250.78,268.48l24.44,30.55"/>
+</svg>

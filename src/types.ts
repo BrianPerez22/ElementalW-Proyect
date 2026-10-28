@@ -27,6 +27,13 @@ export type ContentBlock =
       seriesLabels: [string, string];
       items: ComparisonItem[];
     }
+  | {
+      type: 'bars';
+      title: string;
+      caption?: string;
+      /** value en porcentaje (0–100) */
+      items: { label: string; value: number }[];
+    }
   | { type: 'table'; title?: string; columns: string[]; rows: string[][] }
   | { type: 'list'; title?: string; items: string[]; tone?: 'default' | 'warning' }
   | { type: 'references'; title?: string; items: string[] };
@@ -39,6 +46,16 @@ export interface Poster {
   alt: string;
 }
 
+/** Presentación corta (pitch) que se abre en su propio HTML, aparte del sitio. */
+export interface Pitch {
+  /** Ruta relativa a la raíz del sitio, p. ej. "pitch/investigacion-2/" */
+  href: string;
+  /** Texto del botón en la tarjeta */
+  label: string;
+  /** Texto auxiliar, p. ej. "12 escenas · 5 minutos" */
+  detail?: string;
+}
+
 export interface Research {
   /** Se usa en la URL (#id) y como clave. Único. */
   id: string;
@@ -49,6 +66,8 @@ export interface Research {
   area: string;
   status: ResearchStatus;
   authors: string;
+  /** Colaboradores (opcional); se muestran en los créditos del detalle */
+  collaborators?: string;
   /** Ej. "Research Summit 2026 · Universidad EAN" */
   event?: string;
   date?: string;
@@ -57,6 +76,8 @@ export interface Research {
   /** Cifras cortas que se muestran en la tarjeta */
   highlights?: { value: string; label: string }[];
   poster?: Poster;
+  /** Si existe, la tarjeta muestra un botón que abre el pitch en otra página */
+  pitch?: Pitch;
   blocks: ContentBlock[];
 }
 

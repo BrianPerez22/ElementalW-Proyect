@@ -51,7 +51,7 @@ export default function Metrics() {
           <span className="text-xs font-bold text-rose-500 uppercase tracking-widest">En números</span>
           <h2 className="font-serif text-3xl sm:text-4xl font-bold text-rose-950 mt-2">Métricas globales</h2>
           <p className="text-sm text-rose-800/70 mt-2">
-            Resumen básico de las investigaciones 1 y 2, antes de entrar al detalle de cada una.
+            Panorama general de todo lo investigado entre las investigaciones 1 y 2, antes de entrar al detalle de cada una.
           </p>
         </div>
         <Chispa variant="feliz" flip animate className="hidden sm:block w-28 shrink-0" />
