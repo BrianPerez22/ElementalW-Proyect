@@ -357,7 +357,7 @@ export const contenido: Contenido = {
         { titulo: "ESTUDIO", texto: "Estudio 2 · diseño mixto" },
         { titulo: "CURSOS", texto: "Física Mecánica y Química General" },
         { titulo: "PARTICIPANTES", texto: "46 estudiantes y 4 docentes" },
-        { titulo: "PRESENTAN", texto: "Brian y Daniela" },
+        { titulo: "PRESENTAN", texto: "Brian David Pérez Herrera · Daniela Sophia Coavas Barboza\n"},
       ],
     },
     // 2 · Problema y pregunta (≈ 0:10–0:40)
@@ -410,11 +410,11 @@ export const contenido: Contenido = {
       tipo: "cifras", tema: "rosa", seccion: "RESULTADOS",
       titulo: "Qué pasó: los números", globo: "¡cuántos datos!", personaje: "carroRosa",
       metricas: [
-        { valor: 46, titulo: "estudiantes con actividad" },
+        { valor: 46, maximo: 50, titulo: "estudiantes con actividad" },
         { valor: 90, titulo: "evaluaciones finales" },
         { valor: 57, titulo: "entrevistas y encuestas válidas" },
-        { valor: 4.58, decimales: 2, titulo: "satisfacción media (de 5)" },
-        { valor: 76, unidad: "%", titulo: "intentos satisfactorios o dominados" },
+        { valor: 4.58, decimales: 2, maximo: 5, titulo: "satisfacción media (de 5)" },
+        { valor: 76, unidad: "%", maximo: 100, titulo: "intentos satisfactorios o dominados" },
         { valor: 223, titulo: "lanzamientos en el simulador" },
       ],
       nota: { titulo: "Lectura honesta", texto: "**Efecto techo**: el 49% de los intentos marcó 5 en todo, así que la satisfacción mide aceptación, no aprendizaje. Estudio exploratorio, sin grupo de control." },
@@ -468,7 +468,7 @@ export const contenido: Contenido = {
       metricas: [
         { valor: 22, titulo: "comentarios de Química describen el fallo" },
         { valor: 63, titulo: "respuestas de “unir” con 0–20% de acierto" },
-        { valor: 3, titulo: "de 4 evaluaciones probablemente subestimadas" },
+        { valor: 3, maximo: 4, titulo: "de 4 evaluaciones probablemente subestimadas" },
       ],
       tarjetas: [
         { titulo: "Lo que dicen", texto: "Entrevistas y comentarios: **22 comentarios** de Química cuentan que la selección no se veía o el ejercicio se trababa.", personaje: "cuadradoAzul" },
@@ -543,8 +543,8 @@ export const contenido: Contenido = {
     // 12 · Cierre (≈ 4:50–5:00)
     {
       tipo: "gracias", tema: "cierre", titulo: "Gracias",
-      nombre: "Brian y Daniela",
-      descripcion: "Semillero Smart Farming · Plataforma Elemental-W\nEstudio 2 · Criterios para la implementación de gamificación web en educación superior",
+      nombre: "Brian David Pérez Herrera · Daniela Sophia Coavas Barboza",
+      descripcion: "**Colaboradores:** Juan David Serrato Alvarado · Andrea Carolina Mora Lopez\nKaren Sofia Ovalle Morales · Ariana Guerrero Rios\nSemillero Smart Farming · Plataforma Elemental-W\nEstudio 2 · Criterios para la implementación de gamificación web en educación superior",
       globo: "¡gracias!", personaje: "carroAzul",
       personas: [
         { titulo: "LA IDEA CENTRAL", texto: "Una plataforma gamificada funciona por estar mejor diseñada, no por tener más juego." },

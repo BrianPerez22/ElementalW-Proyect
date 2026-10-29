@@ -13,6 +13,8 @@ export interface Metrica extends Tarjeta {
   decimales?: number;
   signo?: boolean;
   unidad?: string;
+  /** Si existe, la métrica dibuja un medidor (valor ÷ máximo): «46 de 50», «76 de 100», «3 de 4». */
+  maximo?: number;
 }
 export interface Grafica {
   titulo: string;

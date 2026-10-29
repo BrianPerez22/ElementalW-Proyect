@@ -6,23 +6,34 @@ html, body { height: 100%; margin: 0; }
 /* Altura real visible (móviles con barras que aparecen y desaparecen) y sin desplazamiento. */
 html, body { height: 100dvh; width: 100%; overflow: hidden; }
 #root { display: contents; }
+/* El color de la escena activa tiñe toda la página (lo fija Pitch.tsx con data-tema). */
 body {
-  color: #5d3140; background: #f9f4ef;
+  --tema-bg: #f6d8bd; --tema-ink: #5d3140;
+  color: var(--tema-ink); background: var(--tema-bg);
   font-family: "Inter", system-ui, sans-serif;
   display: flex; flex-direction: column;
+  transition: background-color .5s ease .2s, color .5s ease .2s;
 }
+html { background: #f6d8bd; }
+body[data-tema="naranja"] { --tema-bg: #f3f4be; --tema-ink: #5d3c31; }
+body[data-tema="morado"] { --tema-bg: #e9bfda; --tema-ink: #3b315d; }
+body[data-tema="azul"] { --tema-bg: #c0bcde; --tema-ink: #31555d; }
+body[data-tema="amarillo"] { --tema-bg: #ffe9b3; --tema-ink: #684d1e; }
+body[data-tema="cierre"] { --tema-bg: #5d3140; --tema-ink: #f6d8bd; }
 button { font: inherit; color: inherit; cursor: pointer; }
 button:disabled { opacity: .25; cursor: default; }
 :focus-visible { outline: 3px solid #cf4173; outline-offset: 3px; }
-#deck { position: relative; flex: 1; min-height: 0; width: 100%; overflow: hidden; outline: none; }
+#deck { position: relative; flex: 1; min-height: 0; width: 100%; overflow: hidden; outline: none; touch-action: pan-y; user-select: none; -webkit-user-select: none; }
 #canvas {
   width: 1280px; height: 720px; position: absolute; left: 50%; top: 50%;
   transform: translate(-50%, -50%) scale(var(--scale, 1)); transform-origin: center;
 }
 .slide {
   --ink: #5d3140; --bg: #f6d8bd; --tint: #f4939a; --accent: #cf4173; --solid: #cf4173;
-  position: absolute; inset: 0; isolation: isolate; overflow: clip;
-  background: var(--bg); color: var(--ink); padding: 40px 58px 42px;
+  position: absolute; inset: 0; isolation: isolate;
+  /* Sin overflow recortado: el color y las formas grandes siguen más allá del lienzo de 16:9,
+     así que en cualquier pantalla (16:10, ultra ancha, vertical) no aparecen franjas. */
+  background: var(--bg); box-shadow: 0 0 0 4000px var(--bg); will-change: clip-path, transform; color: var(--ink); padding: 40px 58px 42px;
   font-size: 20px; line-height: 1.35;
 }
 .theme-naranja { --ink: #5d3c31; --bg: #f3f4be; --tint: #f5c693; --accent: #cf5f3f; --solid: #cf5f3f; }
@@ -104,7 +115,7 @@ p { white-space: pre-line; }
 .cover-data h2 { color: var(--accent); font-size: 11px; font-weight: 700; letter-spacing: 2.5px; margin-bottom: 8px; }
 .cover-data p { font-size: 17px; }
 .cover-mascot { left: 802px; top: 125px; right: auto; width: 442px; height: 401px; display: block; }
-.slide--portada::before { content: ""; position: absolute; z-index: -1; width: 806px; height: 806px; top: -86px; left: 776px; background: #efb1ba; border: 65px solid #ed969f; border-radius: 50%; }
+.cover-planet { content: ""; position: absolute; z-index: -1; width: 806px; height: 806px; top: -86px; left: 776px; background: #efb1ba; border: 65px solid #ed969f; border-radius: 50%; animation: respira 9s ease-in-out 2s infinite; }
 .cover-mascot > .character { width: 442px; height: 401px; }
 .cover-mascot .bubble { position: absolute; left: 62px; top: -58px; min-width: 229px; }
 .cover-mascot .bubble::before, .cover-mascot .bubble::after,
@@ -257,41 +268,44 @@ p { white-space: pre-line; }
 .conclusion-mascot .bubble { min-width: 222px; width: max-content; margin-left: -14px; }
 
 /* 12: agradecimientos y personajes a distintas alturas. */
-.slide--gracias .slide-heading { height: 136px; }
+.slide--gracias .slide-heading { height: 112px; }
 .slide--gracias h1 { margin-top: 18px; font-size: 62px; font-weight: 500; }
 .slide--gracias .scene-body { height: auto; }
-.thanks-name { font-size: 29px; font-weight: 500; color: var(--tint); margin-bottom: 23px; }
-.thanks-description { font-size: 20px; line-height: 1.45; max-width: 690px; }
-.thanks-people { grid-template-columns: 1fr 1fr; margin-top: 39px; gap: 64px; }
+.thanks-name { font-size: 25px; font-weight: 500; color: var(--tint); margin-bottom: 14px; }
+.thanks-description { font-size: 19px; line-height: 1.4; max-width: 860px; }
+.thanks-people { grid-template-columns: 1fr 1fr; margin-top: 22px; gap: 64px; }
 .thanks-people .card { background: none; border: 0; padding: 0; }
 .thanks-people h2 { font-size: 11px; font-weight: 700; line-height: 1.3; letter-spacing: 2.5px; color: var(--tint); margin-bottom: 12px; }
 .thanks-people p { font-size: 19px; }
 .thanks-mascot { left: 803px; right: auto; top: 48px; gap: 27px; }
 .thanks-mascot > .character { width: 144px; height: 131px; }
 .thanks-mascot .bubble { color: #5d3140; min-width: 148px; }
-.thanks-parade { position: absolute; bottom: 0; left: 0; right: 0; height: 250px; background: #f6d8bd; display: flex; align-items: center; justify-content: space-evenly; padding: 0 35px; }
+.thanks-parade { position: absolute; bottom: 0; left: 0; right: 0; height: 250px; background: #f6d8bd; isolation: isolate; display: flex; align-items: center; justify-content: space-evenly; padding: 0 35px; }
+.thanks-parade::before { content: ""; position: absolute; z-index: -1; inset: 0 -4000px -4000px; background: #f6d8bd; }
 .thanks-parade .character { width: 210px; height: 195px; }
-.thanks-parade .character:nth-child(1) { translate: 0 12px; }
-.thanks-parade .character:nth-child(2) { translate: 0 -17px; }
-.thanks-parade .character:nth-child(3) { translate: 0 16px; }
-.thanks-parade .character:nth-child(4) { translate: 0 -10px; }
-.thanks-parade .character:nth-child(5) { translate: 0 12px; }
+.thanks-parade .character:nth-child(1) { --base: 12px; translate: 0 12px; }
+.thanks-parade .character:nth-child(2) { --base: -17px; translate: 0 -17px; }
+.thanks-parade .character:nth-child(3) { --base: 16px; translate: 0 16px; }
+.thanks-parade .character:nth-child(4) { --base: -10px; translate: 0 -10px; }
+.thanks-parade .character:nth-child(5) { --base: 12px; translate: 0 12px; }
 .slide--gracias .slide-footer { display: none; }
 .slide--gracias .star { background: var(--tint); }
 
-.controls { position: relative; display: flex; align-items: center; justify-content: center; gap: 12px; height: calc(48px + env(safe-area-inset-bottom, 0px)); flex: 0 0 auto; padding: 1px 22px calc(3px + env(safe-area-inset-bottom, 0px)); font-size: 12px; line-height: 1.2; color: #735461; background: #f9f4ef; }
+.controls { position: relative; display: flex; align-items: center; justify-content: center; gap: 12px; height: calc(48px + env(safe-area-inset-bottom, 0px)); flex: 0 0 auto; padding: 1px 22px calc(3px + env(safe-area-inset-bottom, 0px)); font-size: 12px; line-height: 1.2; color: var(--tema-ink); background: transparent; }
+.controls > * { opacity: .78; }
 .controls button { min-width: 44px; min-height: 44px; border: 0; border-radius: 10px; background: transparent; }
-.controls button:hover:not(:disabled) { background: #e9bfda50; color: #5d3140; }
+.controls button:hover:not(:disabled) { background: #ffffff55; opacity: 1; }
 #previous, #next { font-size: 22px; }
 #counter { font-variant-numeric: tabular-nums; white-space: nowrap; font-size: 11px; }
 #scene-nav { display: flex; align-items: center; gap: 0; }
 #scene-nav .scene-dot { min-width: 25px; width: 25px; min-height: 44px; position: relative; }
-.scene-dot::after { content: ""; display: block; width: 5px; height: 5px; background: #5d31402b; border-radius: 50%; margin: auto; }
-.scene-dot[aria-current]::after { background: #cf4173; box-shadow: 0 0 0 3px #cf417315; }
+.scene-dot::after { content: ""; display: block; width: 5px; height: 5px; background: currentColor; opacity: .28; border-radius: 50%; margin: auto; }
+.scene-dot[aria-current]::after { opacity: 0; }
+.dot-active { position: absolute; left: 50%; top: 50%; width: 17px; height: 7px; margin: -3.5px 0 0 -8.5px; border-radius: 4px; background: #cf4173; box-shadow: 0 0 0 3px #cf417322; }
 #fullscreen { padding: 0 9px; font-size: 11px; }
-#keyboard-help { color: #967782; font-size: 10px; }
-#progress { position: absolute; bottom: 0; left: 0; width: 100%; height: 2px; background: #5d314010; }
-#progress > span { display: block; height: 100%; background: #cf4173b0; transform-origin: left; transition: transform 230ms ease; }
+#keyboard-help { font-size: 10px; opacity: .6; }
+#progress { position: absolute; bottom: 0; left: 0; width: 100%; height: 3px; background: #00000010; }
+#progress > span { display: block; height: 100%; background: #cf4173; transform-origin: left; border-radius: 0 3px 3px 0; }
 #notice { position: fixed; left: 15px; right: 15px; bottom: 60px; background: #fff; color: #5d3140; padding: 15px 22px; border: 2px solid #cf4173; border-radius: 12px; font-size: 16px; line-height: 1.3; z-index: 5; }
 @media (max-width: 1100px) { #keyboard-help { display: none; } .controls { gap: 8px; } }
 @media (max-width: 700px) { #scene-nav { display: none; } .controls { gap: 14px; padding-inline: 10px; } }
@@ -299,5 +313,97 @@ p { white-space: pre-line; }
 
 /* Teléfono en vertical: la escena se ve pequeña; se invita a girarlo. */
 @media (orientation: portrait) and (max-width: 700px) {
-  #deck::after { content: "Gira el teléfono para ver la presentación más grande"; position: absolute; left: 12px; right: 12px; bottom: 10px; text-align: center; font-size: 12px; color: #735461; pointer-events: none; }
+  #deck::after { content: "Gira el teléfono para ver la presentación más grande"; position: absolute; left: 12px; right: 12px; bottom: 10px; text-align: center; font-size: 12px; color: var(--tema-ink); pointer-events: none; }
 }
+
+/* ======================= Pantalla completa: sin controles, sin franjas, sin cursor ======================= */
+body.pantalla-completa .controls, body.pantalla-completa #notice { display: none !important; }
+body.pantalla-completa #deck { cursor: default; }
+body.cursor-oculto, body.cursor-oculto * { cursor: none !important; }
+body.pantalla-completa :focus-visible { outline: none; }
+
+/* ======================= Movimiento (Framer Motion) ======================= */
+/* Titulares por palabra: cada palabra sube desde una máscara. */
+.palabras { display: inline; }
+.palabra-mascara { display: inline-block; overflow: hidden; vertical-align: top; padding: 0 .04em .14em; margin: 0 -.04em -.14em; }
+.palabra { display: inline-block; will-change: transform; }
+.slide--gracias .palabra-mascara { padding-top: .08em; }
+.question-card .palabra-mascara { padding-bottom: .18em; margin-bottom: -.18em; }
+.marca-fuerte { color: var(--accent); background: linear-gradient(transparent 80%, color-mix(in srgb, var(--tint) 70%, transparent) 80%) no-repeat left / 0% 100%; animation: marcar .7s cubic-bezier(.16,1,.3,1) 1.5s forwards; }
+@keyframes marcar { to { background-size: 100% 100%; } }
+/* Cifras en negrita dentro de tarjetas: marcador que se dibuja. */
+.marca { background: linear-gradient(transparent 58%, color-mix(in srgb, var(--tint) 75%, transparent) 58%) no-repeat left / 0% 100%; border-radius: 2px; padding: 0 2px; margin: 0 -2px; }
+.tint .marca { background-image: linear-gradient(transparent 58%, #ffffff88 58%); }
+.dark .marca, .solid .marca { background-image: linear-gradient(transparent 58%, color-mix(in srgb, var(--accent) 70%, transparent) 58%); }
+.solution-intro .marca { background-image: linear-gradient(transparent 58%, #ffffff77 58%); }
+
+/* Brillo que cruza cada tarjeta una vez al entrar. */
+.card::after, .metric::after {
+  content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none;
+  background: linear-gradient(105deg, transparent 38%, rgba(255,255,255,.6) 50%, transparent 62%) no-repeat;
+  background-size: 260% 100%; background-position: 160% 0; opacity: 0;
+  animation: brillo 1s ease-out calc(.75s + var(--i, 0) * .12s) 1 both;
+}
+.metric { position: relative; }
+.cover-data .card::after, .thanks-people .card::after, .activity-strip .card::after { display: none; }
+@keyframes brillo { 0% { opacity: 1; background-position: 160% 0; } 100% { opacity: 1; background-position: -60% 0; } }
+
+/* Ambiente: flotar y titilar con CSS (no choca con las animaciones de entrada). */
+.flota { animation: flotar calc(6s + (var(--n, 0) % 4) * 1.1s) ease-in-out calc(1.4s + (var(--n, 0) % 5) * .35s) infinite; }
+.flota-lento { animation: flotar-mascota 7s ease-in-out 1.6s infinite; }
+.star.titila, .design-dot.titila { animation: titilar calc(3.4s + (var(--n, 0) % 3) * .7s) ease-in-out calc(1s + (var(--n, 0) % 4) * .45s) infinite; }
+@keyframes flotar { 0%, 100% { translate: 0 0; rotate: 0deg; } 50% { translate: 2px -6px; rotate: 1.6deg; } }
+@keyframes flotar-mascota { 0%, 100% { translate: 0 0; rotate: 0deg; } 50% { translate: 0 -7px; rotate: -1.2deg; } }
+@keyframes titilar { 0%, 100% { scale: 1; opacity: 1; } 50% { scale: 1.22; opacity: .72; } }
+@keyframes respira { 0%, 100% { scale: 1; } 50% { scale: 1.025; } }
+.deco, .card > .character, .simulator .character { transform-origin: 50% 80%; }
+
+/* Rieles y nodos de conexión. */
+.card-rail { position: absolute; left: 23px; right: 23px; bottom: 16px; height: 5px; border-radius: 3px; background: var(--solid); transform-origin: left; opacity: .85; }
+.method-steps .card { padding-bottom: 32px; }
+.link-node { position: absolute; z-index: 3; width: 30px; height: 30px; border-radius: 50%; background: var(--accent); border: 2px solid var(--ink); display: grid; place-items: center; }
+.link-node::before { content: ""; width: 8px; height: 8px; border: solid #fff; border-width: 2.5px 2.5px 0 0; rotate: 45deg; translate: -2px 0; }
+.next-steps, .triangle-metrics { position: relative; }
+.slide--triangulacion .scene-body { position: relative; }
+
+/* Medidores de las métricas. */
+.has-meter.meter-anillo { padding-right: 112px; }
+.meter-ring { position: absolute; right: 18px; top: 50%; width: 82px; height: 82px; translate: 0 -50%; rotate: -90deg; overflow: visible; }
+.ring-track { fill: none; stroke: var(--ink); stroke-opacity: .12; stroke-width: 9; }
+.ring-fill { fill: none; stroke: var(--accent); stroke-width: 9; stroke-linecap: round; }
+.tint .ring-fill { stroke: var(--ink); }
+.ring-small, .ring-big { fill: var(--ink); rotate: 90deg; transform-origin: 42px 42px; font-family: "Inter", sans-serif; }
+.ring-small { font-size: 10px; font-weight: 500; opacity: .7; }
+.ring-big { font-size: 19px; font-weight: 700; }
+.triangle-metrics .metric.has-meter { grid-template-rows: auto auto; row-gap: 4px; }
+.triangle-metrics .metric.has-meter .metric-value { grid-row: 1 / span 2; }
+.meter-pips { grid-column: 2; display: flex; gap: 8px; }
+.meter-pips i { width: 26px; height: 12px; border-radius: 6px; border: 2px solid var(--ink); background: transparent; }
+.meter-pips i.on { background: var(--accent); }
+
+/* Gráfica de barras. */
+.chart-card .bar-track { fill: var(--tint); fill-opacity: .32; }
+.chart-card .chart-bar.focus { fill: #5d3c31; }
+.chart-card .category-label.is-focus { font-weight: 700; }
+.chart-card .bar-value.inside { fill: #fff; font-size: 23px; }
+.chart-card .reference-line { stroke: var(--ink); stroke-opacity: .55; stroke-width: 2; stroke-dasharray: 3 7; stroke-linecap: round; }
+.chart-card .gap-chip { fill: #fff; stroke: var(--ink); stroke-width: 2; }
+.chart-card .gap-text { font-size: 21px; font-weight: 800; fill: #cf5f3f; }
+.chart-card { position: relative; }
+
+/* Conclusiones: ondas alrededor de Chispa. */
+.ripple { position: absolute; z-index: 0; left: 1096px; top: 338px; width: 312px; height: 312px; margin: -156px 0 0 -156px; border-radius: 50%; border: 3px solid var(--accent); opacity: 0; pointer-events: none; animation: onda 4.4s ease-out 1.6s infinite; }
+.ripple-2 { animation-delay: 3.8s; }
+@keyframes onda { 0% { scale: .95; opacity: .55; } 100% { scale: 1.55; opacity: 0; } }
+
+/* Criterios: destello al aparecer cada bandera de prioridad. */
+.criterion-flag { animation: destello 1.1s ease-out calc(1.1s + var(--c, 0) * .05s) 1 both; }
+@keyframes destello { 0% { box-shadow: 0 0 0 0 #cf417399; } 100% { box-shadow: 0 0 0 12px #cf417300; } }
+
+/* Pregunta abierta: pulso suave para llamar la atención. */
+.open-question h2 { animation: pulso 2.6s ease-in-out 2.4s 4; }
+@keyframes pulso { 0%, 100% { box-shadow: 0 0 0 0 #ffffff00; } 50% { box-shadow: 0 0 0 7px #ffffff44; } }
+
+/* Cierre: los personajes saludan con un saltito en cadena. */
+.saltarin { animation: saltito 2.8s ease-in-out calc(2.4s + var(--n, 0) * .22s) infinite; }
+@keyframes saltito { 0%, 18%, 100% { translate: 0 var(--base, 0px); } 9% { translate: 0 -16px; } }

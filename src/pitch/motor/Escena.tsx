@@ -1,5 +1,22 @@
-import { forwardRef } from 'react';
-import { Rico } from './formato';
+import type { CSSProperties } from 'react';
+import { motion } from 'framer-motion';
+import { Letras, Palabras, Rico, TextoContado } from './formato';
+import {
+  abrir,
+  aparecer,
+  bandera,
+  columna,
+  desdeIzquierda,
+  escenaRaiz,
+  grupo,
+  INICIO_CONTENIDO,
+  pop,
+  RESORTE_SUAVE,
+  salto,
+  subir,
+  tarjeta,
+} from './movimiento';
+import type { DireccionEscena } from './movimiento';
 import {
   Decoracion,
   Globo,
@@ -16,40 +33,56 @@ import type { Escena } from './tipos';
 /** Escenas que dibujan su propio globo de Chispa (el resto lo recibe en la cabecera). */
 const GLOBO_PROPIO = ['portada', 'pregunta', 'conclusiones', 'gracias'];
 
+/** Cuándo arranca el contador de la métrica `i` (segundos desde que empieza la escena). */
+const retrasoMetrica = (i: number, escalon = 0.12) => INICIO_CONTENIDO + 0.2 + i * escalon;
+
+/** Nodo circular que conecta dos tarjetas (flecha). `x` e `y` son el centro, en px del contenedor. */
+function Nodo({ x, y }: { x: number; y: number }) {
+  return (
+    <motion.i
+      className="link-node"
+      style={{ left: x - 15, top: y - 15 } as CSSProperties}
+      variants={pop}
+      aria-hidden="true"
+    />
+  );
+}
+
 /** Cuerpo de cada escena: una composición por `tipo`. */
 function Cuerpo({ escena }: { escena: Escena }) {
+  const { interfaz } = useContenido();
   switch (escena.tipo) {
     case 'portada':
       return (
         <>
-          <p className="cover-subtitle enter"><Rico texto={escena.subtitulo} /></p>
-          <Tarjetas items={escena.datos} clase="cover-data" />
+          <motion.p className="cover-subtitle" variants={subir}><Rico texto={escena.subtitulo} /></motion.p>
+          <Tarjetas items={escena.datos} clase="cover-data" escalon={0.1} variantes={subir} />
         </>
       );
 
     case 'pregunta':
       return (
         <>
-          <blockquote className="question-card enter">
-            <p><Rico texto={escena.pregunta} /></p>
-          </blockquote>
-          <Tarjetas items={escena.tarjetas} clase="question-chips" />
+          <motion.blockquote className="question-card" variants={tarjeta}>
+            <p><Palabras texto={escena.pregunta} escalon={0.028} /></p>
+          </motion.blockquote>
+          <Tarjetas items={escena.tarjetas} clase="question-chips" retraso={0.45} escalon={0.16} />
         </>
       );
 
     case 'herramienta':
       return (
         <>
-          <p className="solution-intro enter"><Rico texto={escena.resumen} /></p>
+          <motion.p className="solution-intro" variants={subir}><Rico texto={escena.resumen} resaltar /></motion.p>
           <div className="solution-main">
             <div className="solution-features">
-              <Tarjetas items={escena.tarjetas} />
-              <Tarjetas items={escena.actividades} clase="activity-strip" />
+              <Tarjetas items={escena.tarjetas} escalon={0.1} retraso={0.15} />
+              <Tarjetas items={escena.actividades} clase="activity-strip" escalon={0.08} retraso={0.5} contar />
             </div>
-            <aside className="solution-simulators enter">
-              <h2><Rico texto={escena.tituloSimuladores} /></h2>
+            <motion.aside className="solution-simulators" variants={{ ...columna(1), visible: { opacity: 1, x: 0, transition: { ...RESORTE_SUAVE, delayChildren: 0.1 } } }}>
+              <h2><TextoContado texto={escena.tituloSimuladores} ui={interfaz} retraso={INICIO_CONTENIDO + 0.4} /></h2>
               <Simuladores />
-            </aside>
+            </motion.aside>
           </div>
         </>
       );
@@ -57,17 +90,22 @@ function Cuerpo({ escena }: { escena: Escena }) {
     case 'metodo':
       return (
         <>
-          <Tarjetas items={escena.pasos} clase="method-steps" />
+          <Tarjetas items={escena.pasos} clase="method-steps" escalon={0.28} conRiel variantes={desdeIzquierda} />
           <div className="method-bottom">
-            {escena.grupos.map((grupo, i) => (
+            {escena.grupos.map((grupoItem, i) => (
               <TarjetaVista
                 key={i}
-                item={grupo}
+                item={grupoItem}
+                indice={i}
                 clase="group-card"
-                tras={<strong className="group-size"><Rico texto={grupo.valor} /></strong>}
+                tras={
+                  <strong className="group-size">
+                    <TextoContado texto={grupoItem.valor} ui={interfaz} retraso={INICIO_CONTENIDO + 1.1 + i * 0.12} />
+                  </strong>
+                }
               />
             ))}
-            <TarjetaVista item={escena.metrica} clase="method-metric" />
+            <TarjetaVista item={escena.metrica} indice={2} clase="method-metric" />
           </div>
         </>
       );
@@ -77,10 +115,10 @@ function Cuerpo({ escena }: { escena: Escena }) {
         <>
           <div className="figures-grid">
             {escena.metricas.map((item, i) => (
-              <MetricaVista key={i} item={item} clase={i % 2 ? 'tint' : ''} />
+              <MetricaVista key={i} item={item} clase={i % 2 ? 'tint' : ''} retraso={retrasoMetrica(i)} />
             ))}
           </div>
-          <TarjetaVista item={escena.nota} clase="dark figures-note" />
+          <TarjetaVista item={escena.nota} indice={6} clase="dark figures-note" />
         </>
       );
 
@@ -88,18 +126,18 @@ function Cuerpo({ escena }: { escena: Escena }) {
       return (
         <>
           <GraficaBarras datos={escena.grafica} />
-          <TarjetaVista item={escena.conclusion} clase="simulator-note tint" />
+          <TarjetaVista item={escena.conclusion} clase="simulator-note tint" variantes={{ ...tarjeta, oculto: { opacity: 0, x: 60 } }} />
         </>
       );
 
     case 'hallazgos':
       return (
         <>
-          {escena.columnas.map((columna, i) => (
-            <div key={i} className={`findings-column column-${i}`}>
-              <h2 className="column-title enter"><Rico texto={columna.titulo} /></h2>
-              <Tarjetas items={columna.tarjetas} />
-            </div>
+          {escena.columnas.map((col, i) => (
+            <motion.div key={i} className={`findings-column column-${i}`} variants={columna(i === 0 ? -1 : 1)}>
+              <motion.h2 className="column-title" variants={abrir}><Rico texto={col.titulo} /></motion.h2>
+              <Tarjetas items={col.tarjetas} escalon={0.12} retraso={0.1} />
+            </motion.div>
           ))}
         </>
       );
@@ -109,10 +147,25 @@ function Cuerpo({ escena }: { escena: Escena }) {
         <>
           <div className="triangle-metrics">
             {escena.metricas.map((item, i) => (
-              <MetricaVista key={i} item={item} clase={i < 2 ? 'solid' : 'muted'} />
+              <MetricaVista
+                key={i}
+                item={item}
+                clase={i < 2 ? 'solid' : 'muted'}
+                retraso={retrasoMetrica(i, 0.2)}
+                medidor="puntos"
+              />
             ))}
           </div>
-          <Tarjetas items={escena.tarjetas} clase="triangle-notes" />
+          <Tarjetas
+            items={escena.tarjetas}
+            clase="triangle-notes"
+            escalon={0.2}
+            retraso={0.1}
+            hijos={null}
+          />
+          {[0, 1, 2].map((i) => (
+            <Nodo key={i} x={551} y={67.7 + i * 153.3} />
+          ))}
         </>
       );
 
@@ -120,45 +173,55 @@ function Cuerpo({ escena }: { escena: Escena }) {
       return (
         <>
           <div className="criteria-columns">
-            {escena.columnas.map((columna, i) => (
-              <div key={i} className={`criteria-column column-${i}`}>
-                <h2 className="column-title enter"><Rico texto={columna.titulo} /></h2>
-                <ul className="criteria-list">
-                  {columna.criterios.map((criterio) => (
-                    <li key={criterio.codigo} className={`criterion enter${criterio.alta ? ' high' : ''}`}>
+            {escena.columnas.map((col, i) => (
+              <motion.div key={i} className={`criteria-column column-${i}`} variants={columna(i === 0 ? -1 : 1)}>
+                <motion.h2 className="column-title" variants={abrir}><Rico texto={col.titulo} /></motion.h2>
+                <motion.ul className="criteria-list" variants={{ oculto: {}, visible: { transition: { staggerChildren: 0.06, delayChildren: 0.12 } } }}>
+                  {col.criterios.map((criterio) => (
+                    <motion.li key={criterio.codigo} className={`criterion${criterio.alta ? ' high' : ''}`} variants={desdeIzquierda}>
                       <span className="criterion-code">{criterio.codigo}</span>
                       <span className="criterion-text"><Rico texto={criterio.texto} /></span>
-                      {criterio.alta ? <i className="criterion-flag" role="img" aria-label="prioridad alta" /> : null}
-                    </li>
+                      {criterio.alta ? (
+                        <motion.i className="criterion-flag" role="img" aria-label="prioridad alta" variants={bandera} />
+                      ) : null}
+                    </motion.li>
                   ))}
-                </ul>
-              </div>
+                </motion.ul>
+              </motion.div>
             ))}
           </div>
-          <p className="criteria-legend enter">
+          <motion.p className="criteria-legend" variants={subir}>
             <i className="legend-dot" />
             <span><Rico texto={escena.leyenda} /></span>
-          </p>
+          </motion.p>
         </>
       );
 
     case 'siguientes':
       return (
         <>
-          <Tarjetas items={escena.pasos} clase="next-steps" />
-          <TarjetaVista item={escena.pregunta} clase="dark open-question" />
+          <Tarjetas
+            items={escena.pasos}
+            clase="next-steps"
+            escalon={0.22}
+            variantes={desdeIzquierda}
+            hijos={[281, 572, 863].map((x) => (
+              <Nodo key={x} x={x} y={164} />
+            ))}
+          />
+          <TarjetaVista item={escena.pregunta} indice={4} clase="dark open-question" variantes={{ ...tarjeta, oculto: { opacity: 0, y: 60 } }} />
         </>
       );
 
     case 'conclusiones':
-      return <Tarjetas items={escena.puntos} clase="conclusion-list" />;
+      return <Tarjetas items={escena.puntos} clase="conclusion-list" escalon={0.2} variantes={desdeIzquierda} />;
 
     case 'gracias':
       return (
         <>
-          <h2 className="thanks-name enter"><Rico texto={escena.nombre} /></h2>
-          <p className="thanks-description enter"><Rico texto={escena.descripcion} /></p>
-          <Tarjetas items={escena.personas} clase="thanks-people" />
+          <motion.h2 className="thanks-name" variants={subir}><Rico texto={escena.nombre} /></motion.h2>
+          <motion.p className="thanks-description" variants={subir}><Rico texto={escena.descripcion} /></motion.p>
+          <Tarjetas items={escena.personas} clase="thanks-people" escalon={0.15} retraso={0.1} />
         </>
       );
   }
@@ -172,16 +235,34 @@ function Extras({ escena }: { escena: Escena }) {
     case 'pregunta':
       return <Globo escena={escena} clase="question-mascot" />;
     case 'conclusiones':
-      return <Globo escena={escena} clase="conclusion-mascot" />;
+      return (
+        <>
+          <i className="ripple ripple-1" aria-hidden="true" />
+          <i className="ripple ripple-2" aria-hidden="true" />
+          <Globo escena={escena} clase="conclusion-mascot" />
+        </>
+      );
     case 'gracias':
       return (
         <>
           <Globo escena={escena} clase="thanks-mascot" />
-          <div className="thanks-parade">
+          <motion.div
+            className="thanks-parade"
+            variants={{
+              oculto: { y: '100%' },
+              visible: { y: '0%', transition: { type: 'spring', stiffness: 140, damping: 22, delay: 0.3, delayChildren: 0.55, staggerChildren: 0.13 } },
+            }}
+          >
             {escena.personajes.map((clave, i) => (
-              <Personaje key={`${clave}-${i}`} clave={clave} clase="enter" />
+              <Personaje
+                key={`${clave}-${i}`}
+                clave={clave}
+                clase="saltarin"
+                variantes={salto}
+                estilo={{ '--n': i } as CSSProperties}
+              />
             ))}
-          </div>
+          </motion.div>
         </>
       );
     default:
@@ -192,38 +273,42 @@ function Extras({ escena }: { escena: Escena }) {
 interface Props {
   escena: Escena;
   indice: number;
-  activa: boolean;
+  direccion: DireccionEscena;
 }
 
-/** Una escena completa: decoración, cabecera, cuerpo y pie. */
-const EscenaVista = forwardRef<HTMLElement, Props>(function EscenaVista({ escena, indice, activa }, ref) {
+/** Una escena completa: decoración, cabecera, cuerpo y pie. Se anima sola al montarse. */
+export default function EscenaVista({ escena, indice, direccion }: Props) {
   const { interfaz } = useContenido();
   const esPortada = escena.tipo === 'portada';
   return (
-    <section
-      ref={ref}
+    <motion.section
       className={`slide slide--${escena.tipo} theme-${escena.tema}`}
-      hidden={!activa}
       aria-labelledby={`title-${indice}`}
+      variants={escenaRaiz}
+      custom={direccion}
+      initial="oculto"
+      animate="visible"
+      exit="salida"
     >
+      {esPortada ? <motion.i className="cover-planet" variants={{ oculto: { scale: 0.7, opacity: 0 }, visible: { scale: 1, opacity: 1, transition: { ...RESORTE_SUAVE, delay: 0.25 } } }} aria-hidden="true" /> : null}
       <Decoracion escena={escena} />
-      <header className="slide-heading">
-        {esPortada ? <p className="cover-brand enter">{interfaz.marca}</p> : null}
-        {escena.seccion ? <span className="section-tag enter">{escena.seccion}</span> : null}
-        {escena.tipo === 'portada' ? <p className="cover-tag enter">{escena.etiqueta}</p> : null}
-        <h1 id={`title-${indice}`} className="enter"><Rico texto={escena.titulo} /></h1>
-      </header>
+      <motion.header className="slide-heading" variants={grupo(0, 0.1)}>
+        {esPortada ? <motion.p className="cover-brand" variants={aparecer}>{interfaz.marca}</motion.p> : null}
+        {escena.seccion ? <motion.span className="section-tag" variants={abrir}>{escena.seccion}</motion.span> : null}
+        {escena.tipo === 'portada' ? <motion.p className="cover-tag" variants={abrir}>{escena.etiqueta}</motion.p> : null}
+        <h1 id={`title-${indice}`}>
+          {escena.tipo === 'gracias' ? <Letras texto={escena.titulo} /> : <Palabras texto={escena.titulo} />}
+        </h1>
+      </motion.header>
       {GLOBO_PROPIO.includes(escena.tipo) ? null : <Globo escena={escena} />}
-      <div className="scene-body">
+      <motion.div className="scene-body" variants={grupo(0.1, 0.11)}>
         <Cuerpo escena={escena} />
-      </div>
-      <div className="slide-footer">
+      </motion.div>
+      <motion.div className="slide-footer" variants={aparecer}>
         <span>{interfaz.pie}</span>
         <span>{indice + 1}</span>
-      </div>
+      </motion.div>
       <Extras escena={escena} />
-    </section>
+    </motion.section>
   );
-});
-
-export default EscenaVista;
+}

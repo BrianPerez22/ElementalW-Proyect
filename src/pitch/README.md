@@ -5,7 +5,8 @@ investigación y viven en su propia página HTML, separada del sitio.
 
 ```
 motor/               Motor compartido: Pitch.tsx (mazo, teclado, pantalla completa), Escena.tsx
-                     (una composición por tipo de escena), piezas.tsx, animaciones.ts, pitch.css
+                     (una composición por tipo de escena), piezas.tsx, formato.tsx, movimiento.ts (resortes y variantes
+                     de Framer Motion), pitch.css
 recursos/            chispa/ (ilustraciones SVG) y fuentes/ (Inter y Ultra, locales)
 investigacion-2/     contenido.ts (textos, cifras, dirección visual) y main.tsx
 ```
