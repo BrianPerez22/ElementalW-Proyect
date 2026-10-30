@@ -33,6 +33,11 @@ export const investigacion1: Research = {
     image: 'investigacion-1/poster.png',
     alt: 'Póster de investigación de Elemental, Research Summit 2026 (formato A3 vertical)',
   },
+  pitch: {
+    href: 'pitch/investigacion-1/',
+    label: 'Abrir pitch',
+    detail: '15 escenas',
+  },
   blocks: [
     {
       type: 'paragraph',

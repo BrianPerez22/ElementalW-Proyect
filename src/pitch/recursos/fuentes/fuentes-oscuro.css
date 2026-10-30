@@ -1,0 +1,53 @@
+/* Fuentes del pitch de la Investigación 1 (tema oscuro): Outfit, JetBrains Mono y Playfair Display.
+   Versiones variables de fontsource 5.3.0 (las mismas letras que el pitch cargaba desde Google Fonts).
+   Orden de carga: 1) archivo local en esta carpeta  2) CDN de respaldo  3) fuentes del sistema. */
+@font-face {
+  font-family: "Outfit";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100 900;
+  src:
+    url("./outfit-latin-wght-normal.woff2") format("woff2-variations"),
+    url("https://cdn.jsdelivr.net/fontsource/fonts/outfit:vf@5.3.0/latin-wght-normal.woff2") format("woff2-variations");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304,
+    U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: "JetBrains Mono";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100 800;
+  src:
+    url("./jetbrains-mono-latin-wght-normal.woff2") format("woff2-variations"),
+    url("https://cdn.jsdelivr.net/fontsource/fonts/jetbrains-mono:vf@5.3.0/latin-wght-normal.woff2")
+      format("woff2-variations");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304,
+    U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: "Playfair Display";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 400 900;
+  src:
+    url("./playfair-display-latin-wght-normal.woff2") format("woff2-variations"),
+    url("https://cdn.jsdelivr.net/fontsource/fonts/playfair-display:vf@5.3.0/latin-wght-normal.woff2")
+      format("woff2-variations");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304,
+    U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: "Playfair Display";
+  font-style: italic;
+  font-display: swap;
+  font-weight: 400 900;
+  src:
+    url("./playfair-display-latin-wght-italic.woff2") format("woff2-variations"),
+    url("https://cdn.jsdelivr.net/fontsource/fonts/playfair-display:vf@5.3.0/latin-wght-italic.woff2")
+      format("woff2-variations");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304,
+    U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
