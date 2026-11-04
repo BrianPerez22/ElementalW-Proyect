@@ -1,33 +1,9 @@
-import { ExternalLink, RefreshCw } from 'lucide-react';
-import { useEffect, useRef, useState } from 'react';
+import { ExternalLink } from 'lucide-react';
+import { asset } from '../utils';
 import { site } from '../data/site';
 
-// Tamaño "de escritorio" con el que se renderiza el sitio; luego se escala para que quepa.
-const VIEWPORT_W = 1280;
-const VIEWPORT_H = 800;
-
-/** Vista previa en vivo de elementalw.site dentro de un marco de navegador. */
+/** Captura de la plataforma con acceso al sitio real en una pestaña aparte. */
 export default function LivePreview() {
-  const boxRef = useRef<HTMLDivElement>(null);
-  const [scale, setScale] = useState(0.3);
-  const [loaded, setLoaded] = useState(false);
-  const [reloadKey, setReloadKey] = useState(0);
-
-  useEffect(() => {
-    const el = boxRef.current;
-    if (!el) return;
-    const update = () => setScale(el.clientWidth / VIEWPORT_W);
-    update();
-    const ro = new ResizeObserver(update);
-    ro.observe(el);
-    return () => ro.disconnect();
-  }, []);
-
-  const reload = () => {
-    setLoaded(false);
-    setReloadKey((k) => k + 1);
-  };
-
   return (
     <div className="rounded-2xl overflow-hidden border border-rose-200 bg-white shadow-sm">
       <div className="flex items-center gap-2 px-3 py-2 bg-rose-50 border-b border-rose-100">
@@ -39,49 +15,29 @@ export default function LivePreview() {
         <span className="flex-1 truncate text-[10px] font-semibold text-rose-800 bg-white border border-rose-100 rounded-full px-3 py-1">
           {site.urlLabel}
         </span>
-        <span className="flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider text-emerald-700">
-          <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" /> En vivo
+        <span className="text-[10px] font-bold uppercase tracking-wider text-rose-600">
+          Vista previa
         </span>
       </div>
 
-      <div ref={boxRef} className="relative w-full bg-rose-50 overflow-hidden" style={{ height: VIEWPORT_H * scale }}>
-        <iframe
-          key={reloadKey}
-          src={site.url}
-          title="Vista previa en vivo de Elemental W"
-          loading="lazy"
-          tabIndex={-1}
-          sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
-          onLoad={() => setLoaded(true)}
-          className="absolute top-0 left-0 border-0 bg-white"
-          style={{
-            width: VIEWPORT_W,
-            height: VIEWPORT_H,
-            transform: `scale(${scale})`,
-            transformOrigin: 'top left',
-          }}
+      <a
+        href={site.url}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label={`Abrir ${site.urlLabel}`}
+        className="block aspect-[8/5] overflow-hidden bg-rose-50"
+      >
+        <img
+          src={asset('app-preview.png')}
+          alt="Captura de la plataforma Elemental W, con su portada y actividades de aprendizaje"
+          className="h-full w-full object-cover object-top"
         />
-        {!loaded && (
-          <div className="absolute inset-0 flex items-center justify-center text-xs font-semibold text-rose-700 animate-pulse pointer-events-none">
-            Cargando vista en vivo…
-          </div>
-        )}
-        {/* Capa clicable: abre el sitio real */}
-        <a
-          href={site.url}
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label={`Abrir ${site.urlLabel}`}
-          className="absolute inset-0"
-        />
-      </div>
+      </a>
 
-      <div className="flex items-center justify-end gap-4 px-3 py-2 border-t border-rose-100 text-[11px] font-bold text-rose-700">
-        <button onClick={reload} className="inline-flex items-center gap-1 hover:text-rose-950">
-          <RefreshCw className="w-3 h-3" /> Recargar
-        </button>
+      <div className="flex items-center justify-between gap-3 px-3 py-2 border-t border-rose-100 text-[11px] font-bold text-rose-700">
+        <span>Captura de la plataforma</span>
         <a href={site.url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 hover:text-rose-950">
-          Abrir <ExternalLink className="w-3 h-3" />
+          Abrir sitio <ExternalLink className="w-3 h-3" />
         </a>
       </div>
     </div>
